@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>sPESIスコアとPTEリスク分類</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1, h2 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin: 10px 0;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>血栓破砕術を含むカテーテル治療の適応</h1>
+  <p>血栓破砕術は、<strong>血栓溶解薬を使用しないカテーテル治療（non-lytic catheter-based therapy）</strong>の一つであり、以下のような状況での使用が考慮されている。</p>
+  <ul>
+    <li><strong>高リスクPTE</strong>（急性肺血栓塞栓症）<br>
+      全身血栓溶解療法が禁忌、無効、または抗凝固療法禁忌の場合<br>
+      熟練した術者および専門施設にて、血栓溶解薬非併用カテーテル治療（血栓破砕術を含む）を行うことが<strong>推奨クラス IIa（エビデンスレベルC）</strong></li>
+    <li><strong>中リスクPTE</strong><br>
+      抗凝固療法が禁忌の場合に、同様にカテーテル治療を考慮可能（<strong>クラス IIb</strong>）<br>
+      抗凝固療法により病態が悪化し、血栓溶解療法が禁忌な場合には、<strong>IIa</strong>としてカテーテル治療を考慮</li>
+    <li><strong>DVT関連適応</strong><br>
+      動脈虚血を伴う重症DVT：カテーテル治療は<strong>クラス I</strong><br>
+      急性期症状が重度の腸骨静脈を含むDVT：<strong>IIa</strong><br>
+      圧迫療法・抗凝固療法が無効な重症PTS：<strong>IIa</strong></li>
+  </ul>
+
+  <img src="PE fig1.png" alt="PTEのリスク分類図">
+
+  <h2>sPESIスコア判定</h2>
+  <form id="sPESIform">
+    <div class="form-group">年齢 > 80歳: <input type="checkbox" name="age"></div>
+    <div class="form-group">癌あり: <input type="checkbox" name="cancer"></div>
+    <div class="form-group">心不全あり: <input type="checkbox" name="hf"></div>
+    <div class="form-group">心拍数 > 110: <input type="checkbox" name="hr"></div>
+    <div class="form-group">収縮期血圧 < 100 mmHg: <input type="checkbox" name="bp"></div>
+    <div class="form-group">酸素飽和度 < 90%: <input type="checkbox" name="spo2"></div>
+    <button type="button" onclick="calculate()">スコア計算</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculate() {
+      const form = document.forms["sPESIform"];
+      let score = 0;
+      for (let input of form.elements) {
+        if (input.type === "checkbox" && input.checked) score++;
+      }
+      let risk = score === 0 ? "低リスク" : "中リスク以上";
+      document.getElementById("result").innerText = `sPESIスコア: ${score} 点 → ${risk}`;
+    }
+  </script>
+</body>
+</html>
